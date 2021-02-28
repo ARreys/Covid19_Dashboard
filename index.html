@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Covid Dashboard</title>
+</head>
+
+<body>
+    <div id="particles-js">
+        <div class="container">
+            <div class="containerIndice">
+                <div class="logo">
+                    <h2>COVID</h2>
+                    <p>Dashboard</p>
+                </div>
+                <div class="indice">
+                    <ul>
+                        <li>
+                            <span class="recuperadosIndice indiceIcon"></span>
+                            <h5>Recuperados</h5>
+                        </li>
+                        <li>
+                            <span class="confirmadosIndice indiceIcon"></span>
+                            <h5>Confirmados</h5>
+                        </li>
+                        <li>
+                            <span class="mortesIndice indiceIcon"></span>
+                            <h5>Mortes</h5>
+                        </li>
+                    </ul>
+                </div>
+                <div class="informations">
+                    <p>Estes dados estão sendo coletados <a href="https://api.covid19api.com/" target="blank">desta api</a>, dashboard criado para fins estudantis portanto o autor não se responsabiliza pela veracidade dos dados aqui apresentados.
+                    </p>
+                </div>
+            </div>
+            <div class="content">
+                <div class="containerCabecalho">
+                    <span class="busca">
+                        <input class="buscaInput" id="provinceSearch" placeholder="Buscar estado" type="text">
+                        <button onclick="searchEstado()"><i data-feather="search"></i></button>
+                    </span>
+                    <h2 id="province">- -</h2>
+                </div>
+                <div class="cardHeader">
+                    <div class="card cardRecuperados">
+                        <div class="icon">
+                            <i data-feather="user-check"></i>
+                        </div>
+                        <h1 id="nRecuperados">--</h1>
+                    </div>
+                    <div class="card cardConfirmados">
+                        <div class="icon">
+                            <i data-feather="user-plus"></i>
+                        </div>
+                        <h1 id="nConfirmados">--</h1>
+                    </div>
+                    <div class="card cardMortes">
+                        <div class="icon">
+                            <i data-feather="user-minus"></i>
+                        </div>
+                        <h1 id="nMortes">--</h1>
+                    </div>
+                </div>
+                <div class="containerGraficos">
+                    <div class="histogramaGraph">
+                        <div id="chart_div" style="width: 100%; height: 100%;"></div>
+                    </div>
+                    <div class="pizzaGraph">
+                        <div id="piechart_3d" style="width: 100%; height: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        feather.replace()
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/particles.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
