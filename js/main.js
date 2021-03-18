@@ -159,7 +159,7 @@ function preencherHistograma(todosEstados) {
     var data = google.visualization.arrayToDataTable(dataArray);
 
     var options = {
-        title: 'Recuperados nos estado',
+        title: 'Recuperados nos estados',
         legend: { position: 'none' },
         backgroundColor: 'transparent',
         colors: ['#4285F4'],
