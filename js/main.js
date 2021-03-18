@@ -1,20 +1,52 @@
-const nomeEstado = document.getElementById("province")
+const labelEstado = document.getElementById("province")
 const nRecuperados = document.getElementById("nRecuperados")
 const nConfirmados = document.getElementById("nConfirmados")
 const nMortes = document.getElementById("nMortes")
 var response
+var responsePaises = []
+var responseEstados = []
 var nomesEstados = []
 
+
 //Consulta API
-function covidGet() {
-    return axios.get('https://api.covid19api.com/live/country/brazil/status/confirmed')
+function covidGet(parametro) {
+    return axios.get(`https://api.covid19api.com/live/country/${parametro}/status/confirmed`)
 }
 
-async function covidGetBrazil() {
-    console.log(await axios.get('https://api.covid19api.com/total/dayone/country/ivory-coast'))
+// //Dados do Pais em geral
+// async function covidGetBrazil() {
+//     console.log(await axios.get('https://api.covid19api.com/countries'))
+// }
+// covidGetBrazil()
+
+//Preenche o dropdown de todos os estado
+function preencherDropdown(data) {
+    var dropdown = document.getElementById("province-dropdown")
+    dropdown.innerText = ""
+    data.forEach(data => {
+        var item = document.createElement('a')
+        item.innerHTML = data.Province
+        item.classList.add("dropdown-item")
+        item.id = data.ID
+        dropdown.appendChild(item)
+        item.onclick = function() {
+            (searchEstado(item.id))
+        }
+    })
 }
 
-covidGetBrazil()
+//Retorna todos os dados de todos os estado do pais
+async function searchPais() {
+    nomesEstados = []
+    response = []
+    responseEstados = []
+    responsePaises = []
+    paisInput = document.getElementById("countrySearch").value
+    responsePaises = await covidGet(paisInput)
+    UltimosDadosEstados(responsePaises.data)
+    preencherDropdown(responseEstados)
+    return responsePaises
+}
 
 //Retorna o dado mais recente de todos os estados
 function UltimosDadosEstados(data) {
@@ -35,35 +67,30 @@ function UltimosDadosEstados(data) {
         })
         todosEstados.push(dataAux[dataAux.length - 1])
     })
-    console.log(todosEstados)
+    responseEstados = todosEstados
     return todosEstados;
 }
 
 //Retorna o dado mais recente do estado no input
-async function searchEstado() {
-    var estadoInput = document.getElementById("provinceSearch").value;
+async function searchEstado(id) {
     var dataEstado = []
-    var todosEstados
     var dadoMaisRecente
-    response = await covidGet()
+    response = responsePaises
     const provinces = response.data
     provinces.forEach(province => {
-        if (province.Province == estadoInput) {
+        if (province.ID == id) {
             dataEstado.push(province)
         }
     });
-    console.log(response)
     dadoMaisRecente = dataEstado[dataEstado.length - 1]
     preencherContadores(dadoMaisRecente)
-    todosEstados = UltimosDadosEstados(response.data)
-    preencherGraficoPizza(todosEstados)
-    preencherHistograma(todosEstados)
+    preencherGraficoPizza(responseEstados)
+    preencherHistograma(responseEstados)
 
 }
 
 function preencherContadores(parametro) {
-    console.log(parametro)
-    nomeEstado.innerHTML = parametro.Province
+    labelEstado.innerHTML = parametro.Province
     nConfirmados.innerHTML = parametro.Confirmed.toLocaleString()
     nRecuperados.innerHTML = parametro.Recovered.toLocaleString()
     nMortes.innerHTML = parametro.Deaths.toLocaleString()
@@ -96,14 +123,14 @@ function preencherGraficoPizza(todosEstados) {
     })
     var data = google.visualization.arrayToDataTable(dataArray);
 
-    var i = 0
-    var estadoInput = document.getElementById("provinceSearch").value
-    todosEstados.forEach(estado => {
-        if (estado.Province == estadoInput) {
-            i = { offset = 0.4 }
-        }
-        i++
-    })
+    // var i = 0
+    // var estadoInput = document.getElementById("provinceSearch").value
+    // todosEstados.forEach(estado => {
+    //     if (estado.Province == estadoInput) {
+    //         i = { offset = 0.4 }
+    //     }
+    //     i++
+    // })
 
     var options = {
         title: 'Mortes nos estados',
