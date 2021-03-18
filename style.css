@@ -244,7 +244,7 @@ body {
         width: 95% !important;
     }
     .containerIndice {
-        height: 20% !important;
+        height: 15% !important;
         padding: 0;
     }
     .informations {
@@ -254,7 +254,7 @@ body {
     .content {
         padding-left: 5% !important;
         padding-right: 5% !important;
-        height: 80% !important;
+        height: 85% !important;
     }
     .busca {
         flex-direction: column;
