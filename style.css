@@ -261,6 +261,7 @@ body {
         align-items: center;
     }
     .buscaInput {
+        border: 0px !important;
         width: 40% !important;
     }
     .card h1 {
