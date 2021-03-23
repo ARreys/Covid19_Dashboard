@@ -10,6 +10,11 @@ body {
     height: 100vh;
 }
 
+:root {
+    --cinzatransparent: rgba(255, 255, 255, 0.737);
+    --azultransparent: #223053cb;
+}
+
 #particles-js {
     position: relative;
     display: flex;
@@ -28,7 +33,7 @@ body {
     height: 95%;
     width: 85% !important;
     padding: 10px;
-    background-color: #151d32cb;
+    background-color: var(--azultransparent);
     border-radius: 35px;
     flex-wrap: wrap;
 }
@@ -49,7 +54,7 @@ body {
 
 .indice {
     font-weight: bold;
-    color: #151d32cb;
+    color: var(--azultransparent);
 }
 
 .indice ul li {
@@ -66,15 +71,15 @@ body {
 }
 
 .informations {
-    color: white;
+    color: var(--azultransparent);
     font-size: 0.7rem;
-    background-color: rgba(255, 255, 255, 0.559);
+    background-color: var(--cinzatransparent);
     border-radius: 35px;
 }
 
 .content {
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.559);
+    background-color: var(--cinzatransparent);
     border-radius: 30px;
     overflow: hidden;
     overflow-y: scroll;
@@ -103,7 +108,7 @@ body {
     height: 32px;
     padding: 4px;
     border-radius: 50%;
-    background-color: #151d32cb;
+    background-color: var(--azultransparent);
     border-style: none;
     outline: none;
     cursor: pointer;
@@ -120,7 +125,7 @@ body {
 }
 
 .buscaInput {
-    border-left: 5px solid #151d32cb !important;
+    border-left: 5px solid var(--azultransparent) !important;
     background-color: #151d32a6;
     border-radius: 0px 10px 10px 0px;
     padding: 5px;
@@ -136,8 +141,9 @@ body {
 .card {
     height: 150px;
     border-radius: 30px;
-    box-shadow: 0px 0px 7px rgb(127, 126, 126);
-    color: #151d32cb
+    border: 1px solid var(--azultransparent);
+    box-shadow: 5px 10px 7px rgb(127 126 126);
+    color: var(--azultransparent)
 }
 
 .cardRecuperados {
@@ -264,6 +270,9 @@ body {
         border-radius: 10px 10px 10px 10px;
         border: 0px !important;
         width: 40% !important;
+    }
+    .card {
+        margin: 20px 20px;
     }
     .card h1 {
         font-size: 1rem;

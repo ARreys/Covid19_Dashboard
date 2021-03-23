@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="col-md-10 pl-5 pr-5 content d-flex flex-column justify-content-between h-100">
-                <div class="busca row d-flex justify-content-between containerCabecalho">
+                <div class="busca row d-flex justify-content-between containerCabecalho mb-2">
                     <span class="d-flex align-items-center justify-content-center">
                         <input class="buscaInput text-center" id="countrySearch" placeholder="Buscar pais" type="text">
                         <button class="bt-search ml-1" onclick="searchPais()"><i data-feather="search" ></i></button>
@@ -46,40 +46,49 @@
                     </span>
                     <h2 class="indice" id="province">- -</h2>
                 </div>
-                <div class="row d-flex justify-content-around cardHeader">
-                    <div class="col d-flex flex-column justify-content-center m-2 p-3 card text-center cardRecuperados">
+                <div class="row indice d-flex justify-content-around">
+                    <div class="col d-flex flex-column justify-content-center text-center m-0">
+                        <p>Situação no estado</p>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-around cardHeader mb-4">
+                    <div class="col-md-3 d-flex flex-column justify-content-center card text-center cardRecuperados">
                         <div class="icon">
                             <i data-feather="user-check"></i>
                         </div>
-                        <h1 class="indice" id="nRecuperados">--</h1>
+                        <h3 class="indice" id="nRecuperados">--</h3>
+                        <div class="row">
+                            <div class="col">
+                                <p>Recuperados</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col d-flex flex-column justify-content-center m-2 p-3 card text-center cardConfirmados">
+                    <div class="col-md-3 d-flex flex-column justify-content-center card text-center cardConfirmados">
                         <div class="icon">
                             <i data-feather="user-plus"></i>
                         </div>
-                        <h1 class="indice" id="nConfirmados">--</h1>
+                        <h3 class="indice" id="nConfirmados">--</h3>
+                        <div class="row">
+                            <div class="col">
+                                <p>Confirmados</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col d-flex flex-column justify-content-center m-2 p-3 card text-center cardMortes">
+                    <div class="col-md-3 d-flex flex-column justify-content-center card text-center cardMortes">
                         <div class="icon">
                             <i data-feather="user-minus"></i>
                         </div>
-                        <h1 class="indice" id="nMortes">--</h1>
+                        <h3 class="indice" id="nMortes">--</h3>
+                        <div class="row">
+                            <div class="col">
+                                <p>Mortes</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row indice d-flex justify-content-around">
                     <div class="col d-flex flex-column justify-content-center text-center m-0">
-                        <p>Recuperados</p>
-                    </div>
-                    <div class="col d-flex flex-column justify-content-center text-center m-0">
-                        <p>Confirmados</p>
-                    </div>
-                    <div class="col d-flex flex-column justify-content-center text-center m-0">
-                        <p>Mortes</p>
-                    </div>
-                </div>
-                <div class="row mt-2 indice d-flex justify-content-around">
-                    <div class="col d-flex flex-column justify-content-center text-center m-0">
-                        <p>Gráficos</p>
+                        <p>Gráficos nacional</p>
                     </div>
                 </div>
                 <div class="row containerGraficos d-flex align-items-center justify-content-around w-100 h-100">
