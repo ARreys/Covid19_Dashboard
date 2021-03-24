@@ -101,6 +101,7 @@ async function searchCountry(op) {
         LastData()
     } else {
         responseCountry = await covidGet(dataLocalization.data.address.country)
+        console.log(responseCountry)
         responseGeralCountry = await covidGetCountry(dataLocalization.data.address.country)
         LastData()
         console.log(responseState)
