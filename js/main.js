@@ -1,77 +1,137 @@
-const labelEstado = document.getElementById("province")
-const nRecuperados = document.getElementById("nRecuperados")
-const nConfirmados = document.getElementById("nConfirmados")
-const nMortes = document.getElementById("nMortes")
+const labelState = document.getElementById("province")
+const nRecoveredState = document.getElementById("nRecuperados")
+const nConfirmedSatate = document.getElementById("nConfirmados")
+const nDeathState = document.getElementById("nMortes")
 
-const nRecuperadosPais = document.getElementById("nRecuperadosCountrie")
-const nConfirmadosPais = document.getElementById("nConfirmadosCountrie")
-const nMortesPais = document.getElementById("nMortesCountrie")
+const nRecoveredCountry = document.getElementById("nRecuperadosCountry")
+const nConfirmedCountry = document.getElementById("nConfirmadosCountry")
+const nDeathCountry = document.getElementById("nMortesCountry")
 
-var response
-var responsePaises = []
-var responseEstados = []
-var responseDadosGeraisPais = []
-var nomesEstados = []
+var responseGeralCountry = []
+var responseCountry = []
+var responseState = []
+var StateNames = []
+var dataLocalization = []
+
+function removerAcentos(newStringComAcento) {
+    var string = newStringComAcento;
+    var mapaAcentosHex = {
+        a: /[\xE0-\xE6]/g,
+        A: /[\xC0-\xC6]/g,
+        e: /[\xE8-\xEB]/g,
+        E: /[\xC8-\xCB]/g,
+        i: /[\xEC-\xEF]/g,
+        I: /[\xCC-\xCF]/g,
+        o: /[\xF2-\xF6]/g,
+        O: /[\xD2-\xD6]/g,
+        u: /[\xF9-\xFC]/g,
+        U: /[\xD9-\xDC]/g,
+        c: /\xE7/g,
+        C: /\xC7/g,
+        n: /\xF1/g,
+        N: /\xD1/g,
+    };
+
+    for (var letra in mapaAcentosHex) {
+        var expressaoRegular = mapaAcentosHex[letra];
+        string = string.replace(expressaoRegular, letra);
+    }
+
+    return string;
+}
 
 
-//Consulta API
-function covidGet(parametro) {
-    return axios.get(`https://api.covid19api.com/live/country/${parametro}/status/confirmed`)
+function localization() {
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(async function(position) {
+            dataLocalization = await localizationState(position.coords.longitude, position.coords.latitude)
+            searchCountry(false)
+        }, function(error) {
+            console.log(error)
+        }, {
+            enableHighAccuracy: true
+        })
+    } else {
+        alert('Não foi possivel obter sua localização.')
+    }
+}
+
+function localizationState(long, lat) {
+    return axios.get(`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${long}`)
+}
+
+localization()
+
+
+//Todos os dados de estados do pais
+function covidGet(parameter) {
+    return axios.get(`https://api.covid19api.com/live/country/${parameter}/status/confirmed`)
 }
 
 //Dados do Pais em geral
-async function covidGetCountrie(parametro) {
-    return axios.get(`https://api.covid19api.com/total/dayone/country/${parametro}`)
+function covidGetCountry(parameter) {
+    return axios.get(`https://api.covid19api.com/total/dayone/country/${parameter}`)
 }
 
 
-//Preenche o dropdown de todos os estado
-function preencherDropdown(data) {
+function Dropdown(parameter) {
     var dropdown = document.getElementById("province-dropdown")
-    dropdown.innerText = ""
-    data.forEach(data => {
+    parameter.forEach(parameter => {
         var item = document.createElement('a')
-        item.innerHTML = data.Province
+        item.innerHTML = parameter.Province
         item.classList.add("dropdown-item")
-        item.id = data.ID
+        item.id = parameter.ID
         dropdown.appendChild(item)
         item.onclick = function() {
-            (searchEstado(item.id))
+            (searchState(item.id))
         }
     })
 }
 
-//Retorna todos os dados de todos os estado do pais
-async function searchPais() {
-    nomesEstados = []
-    response = []
-    responseEstados = []
-    responsePaises = []
-    paisInput = document.getElementById("countrySearch").value
-    responsePaises = await covidGet(paisInput)
-    responseDadosGeraisPais = await covidGetCountrie(paisInput)
-    UltimosDadosPais(responseDadosGeraisPais.data)
-    UltimosDadosEstados(responsePaises.data)
-    preencherDropdown(responseEstados)
-    return responsePaises
+function LastData() {
+    LastDataCountry(responseGeralCountry.data)
+    LastDataStates(responseCountry.data)
 }
 
-async function UltimosDadosPais(data) {
-    var dadoMaisRecente = []
-    dadoMaisRecente.push(data[data.length - 1])
-    preencherContadores(dadoMaisRecente[0], false)
+async function searchCountry(op) {
+    CountryInput = document.getElementById("countrySearch").value
+    if (op == true) {
+        responseCountry = await covidGet(CountryInput)
+        responseGeralCountry = await covidGetCountry(CountryInput)
+        LastData()
+    } else {
+        responseCountry = await covidGet(dataLocalization.data.address.country)
+        responseGeralCountry = await covidGetCountry(dataLocalization.data.address.country)
+        LastData()
+        console.log(responseState)
+        responseState.forEach(state => {
+            var nameStateAux = removerAcentos(dataLocalization.data.address.state)
+            if (nameStateAux == state.Province) {
+                searchState(state.ID)
+            }
+        })
+    }
+    Dropdown(responseState)
+    return responseCountry
 }
 
-//Retorna o dado mais recente de todos os estados
-function UltimosDadosEstados(data) {
-    var todosEstados = []
+
+function LastDataCountry(parameter) {
+    var lastData = []
+    lastData.push(parameter[parameter.length - 1])
+    Counter(lastData[0], false)
+}
+
+
+function LastDataStates(data) {
+    var allStates = []
     var dataAux = []
     data.forEach(data => {
-        nomesEstados.push(data.Province)
+        StateNames.push(data.Province)
     })
-    var nomesEstadosFiltrados = nomesEstados.filter(
+    var nomesEstadosFiltrados = StateNames.filter(
         function(estado, i) {
-            return nomesEstados.indexOf(estado) === i;
+            return StateNames.indexOf(estado) === i;
         }
     );
     nomesEstadosFiltrados.forEach(estado => {
@@ -79,60 +139,47 @@ function UltimosDadosEstados(data) {
             if (data.Province == estado)
                 dataAux.push(data)
         })
-        todosEstados.push(dataAux[dataAux.length - 1])
+        allStates.push(dataAux[dataAux.length - 1])
     })
-    responseEstados = todosEstados
-    return todosEstados;
+    responseState = allStates
+    return allStates;
 }
 
-//Retorna o dado mais recente do estado no input
-function searchEstado(id) {
-    var dataEstado = []
-    var dadoMaisRecente
-    response = responsePaises
+
+function searchState(id) {
+    var data = []
+    var lastData
+    response = responseCountry
     const provinces = response.data
     provinces.forEach(province => {
         if (province.ID == id) {
-            dataEstado.push(province)
+            data.push(province)
         }
     });
-    dadoMaisRecente = dataEstado[dataEstado.length - 1]
-    preencherContadores(dadoMaisRecente, true)
-    preencherGraficoPizza(responseEstados)
-    preencherHistograma(responseEstados)
+    lastData = data[data.length - 1]
+    Counter(lastData, true)
+    preencherGraficoPizza(responseState)
+    preencherHistograma(responseState)
 
 }
 
-function preencherContadores(parametro, op) {
+
+function Counter(parameter, op) {
     if (op == true) {
-        labelEstado.innerHTML = parametro.Province
-        nConfirmados.innerHTML = parametro.Confirmed.toLocaleString()
-        nRecuperados.innerHTML = parametro.Recovered.toLocaleString()
-        nMortes.innerHTML = parametro.Deaths.toLocaleString()
+        labelState.innerHTML = parameter.Province
+        nConfirmedSatate.innerHTML = parameter.Confirmed.toLocaleString()
+        nRecoveredState.innerHTML = parameter.Recovered.toLocaleString()
+        nDeathState.innerHTML = parameter.Deaths.toLocaleString()
     } else {
-        nRecuperadosPais.innerHTML = parametro.Recovered.toLocaleString()
-        nConfirmadosPais.innerHTML = parametro.Confirmed.toLocaleString()
-        nMortesPais.innerHTML = parametro.Deaths.toLocaleString()
+        nRecoveredCountry.innerHTML = parameter.Recovered.toLocaleString()
+        nConfirmedCountry.innerHTML = parameter.Confirmed.toLocaleString()
+        nDeathCountry.innerHTML = parameter.Deaths.toLocaleString()
     }
 }
 
 
 google.charts.load("current", { packages: ["corechart"] });
 google.charts.setOnLoadCallback(preencherGraficoPizza);
-
-
-function findIndex(todosEstados) {
-    var estadoOffset
-    var i = 0
-    var estadoInput = document.getElementById("provinceSearch").value
-    todosEstados.forEach(estado => {
-        if (estado.Province == estadoInput) {
-            estadoOffset = i
-        }
-        i++
-    })
-    return estadoOffset
-}
 
 
 function preencherGraficoPizza(todosEstados) {
@@ -142,15 +189,6 @@ function preencherGraficoPizza(todosEstados) {
         dataArray.push([estado.Province, Number(estado.Deaths)])
     })
     var data = google.visualization.arrayToDataTable(dataArray);
-
-    // var i = 0
-    // var estadoInput = document.getElementById("provinceSearch").value
-    // todosEstados.forEach(estado => {
-    //     if (estado.Province == estadoInput) {
-    //         i = { offset = 0.4 }
-    //     }
-    //     i++
-    // })
 
     var options = {
         title: 'Mortes nos estados',
@@ -163,7 +201,6 @@ function preencherGraficoPizza(todosEstados) {
     var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
     chart.draw(data, options);
 }
-
 
 
 google.charts.load("current", { packages: ["corechart"] });
@@ -186,7 +223,7 @@ function preencherHistograma(todosEstados) {
 
         chartArea: { width: 350 },
         hAxis: {
-            ticks: [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1]
+            ticks: []
         },
         bar: { gap: 0 },
 

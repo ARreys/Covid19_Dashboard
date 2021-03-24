@@ -54,7 +54,6 @@ body {
 
 .indice {
     font-weight: bold;
-    color: var(--cinzatransparent);
 }
 
 .indice ul li {
@@ -80,6 +79,7 @@ body {
 .content {
     padding: 20px;
     background-color: var(--cinzatransparent);
+    color: var(--azultransparent);
     border-radius: 30px;
     overflow: hidden;
     overflow-y: scroll;

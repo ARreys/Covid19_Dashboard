@@ -34,13 +34,12 @@
                 <div class="busca row d-flex justify-content-between containerCabecalho mb-2">
                     <span class="d-flex align-items-center justify-content-center">
                         <input class="buscaInput text-center" id="countrySearch" placeholder="Buscar pais" type="text">
-                        <button class="bt-search ml-1" onclick="searchPais()"><i data-feather="search" ></i></button>
+                        <button class="bt-search ml-1" onclick="searchCountry(true)"><i data-feather="search" ></i></button>
                         <div class="ml-5 btn-group">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Estados
                             </button>
-                            <div id="province-dropdown" class="dropdown-menu scrollable-menu">
-                                <a class="dropdown-item" id="dropdown-item">Action</a>
+                            <div id="province-dropdown" class="dropdown-menu scrollable-menu">    
                             </div>
                         </div>
                     </span>
@@ -98,7 +97,7 @@
                         <div class="icon">
                             <i data-feather="user-check"></i>
                         </div>
-                        <h3 class="indice" id="nRecuperadosCountrie">--</h3>
+                        <h3 class="indice" id="nRecuperadosCountry">--</h3>
                         <div class="row">
                             <div class="col">
                                 <p>Recuperados</p>
@@ -109,7 +108,7 @@
                         <div class="icon">
                             <i data-feather="user-plus"></i>
                         </div>
-                        <h3 class="indice" id="nConfirmadosCountrie">--</h3>
+                        <h3 class="indice" id="nConfirmadosCountry">--</h3>
                         <div class="row">
                             <div class="col">
                                 <p>Confirmados</p>
@@ -120,7 +119,7 @@
                         <div class="icon">
                             <i data-feather="user-minus"></i>
                         </div>
-                        <h3 class="indice" id="nMortesCountrie">--</h3>
+                        <h3 class="indice" id="nMortesCountry">--</h3>
                         <div class="row">
                             <div class="col">
                                 <p>Mortes</p>
