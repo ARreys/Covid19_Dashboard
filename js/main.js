@@ -2,9 +2,15 @@ const labelEstado = document.getElementById("province")
 const nRecuperados = document.getElementById("nRecuperados")
 const nConfirmados = document.getElementById("nConfirmados")
 const nMortes = document.getElementById("nMortes")
+
+const nRecuperadosPais = document.getElementById("nRecuperadosCountrie")
+const nConfirmadosPais = document.getElementById("nConfirmadosCountrie")
+const nMortesPais = document.getElementById("nMortesCountrie")
+
 var response
 var responsePaises = []
 var responseEstados = []
+var responseDadosGeraisPais = []
 var nomesEstados = []
 
 
@@ -13,11 +19,11 @@ function covidGet(parametro) {
     return axios.get(`https://api.covid19api.com/live/country/${parametro}/status/confirmed`)
 }
 
-// //Dados do Pais em geral
-// async function covidGetBrazil() {
-//     console.log(await axios.get('https://api.covid19api.com/countries'))
-// }
-// covidGetBrazil()
+//Dados do Pais em geral
+async function covidGetCountrie(parametro) {
+    return axios.get(`https://api.covid19api.com/total/dayone/country/${parametro}`)
+}
+
 
 //Preenche o dropdown de todos os estado
 function preencherDropdown(data) {
@@ -43,9 +49,17 @@ async function searchPais() {
     responsePaises = []
     paisInput = document.getElementById("countrySearch").value
     responsePaises = await covidGet(paisInput)
+    responseDadosGeraisPais = await covidGetCountrie(paisInput)
+    UltimosDadosPais(responseDadosGeraisPais.data)
     UltimosDadosEstados(responsePaises.data)
     preencherDropdown(responseEstados)
     return responsePaises
+}
+
+async function UltimosDadosPais(data) {
+    var dadoMaisRecente = []
+    dadoMaisRecente.push(data[data.length - 1])
+    preencherContadores(dadoMaisRecente[0], false)
 }
 
 //Retorna o dado mais recente de todos os estados
@@ -72,7 +86,7 @@ function UltimosDadosEstados(data) {
 }
 
 //Retorna o dado mais recente do estado no input
-async function searchEstado(id) {
+function searchEstado(id) {
     var dataEstado = []
     var dadoMaisRecente
     response = responsePaises
@@ -83,17 +97,23 @@ async function searchEstado(id) {
         }
     });
     dadoMaisRecente = dataEstado[dataEstado.length - 1]
-    preencherContadores(dadoMaisRecente)
+    preencherContadores(dadoMaisRecente, true)
     preencherGraficoPizza(responseEstados)
     preencherHistograma(responseEstados)
 
 }
 
-function preencherContadores(parametro) {
-    labelEstado.innerHTML = parametro.Province
-    nConfirmados.innerHTML = parametro.Confirmed.toLocaleString()
-    nRecuperados.innerHTML = parametro.Recovered.toLocaleString()
-    nMortes.innerHTML = parametro.Deaths.toLocaleString()
+function preencherContadores(parametro, op) {
+    if (op == true) {
+        labelEstado.innerHTML = parametro.Province
+        nConfirmados.innerHTML = parametro.Confirmed.toLocaleString()
+        nRecuperados.innerHTML = parametro.Recovered.toLocaleString()
+        nMortes.innerHTML = parametro.Deaths.toLocaleString()
+    } else {
+        nRecuperadosPais.innerHTML = parametro.Recovered.toLocaleString()
+        nConfirmadosPais.innerHTML = parametro.Confirmed.toLocaleString()
+        nMortesPais.innerHTML = parametro.Deaths.toLocaleString()
+    }
 }
 
 

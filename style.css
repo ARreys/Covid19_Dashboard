@@ -54,7 +54,7 @@ body {
 
 .indice {
     font-weight: bold;
-    color: var(--azultransparent);
+    color: var(--cinzatransparent);
 }
 
 .indice ul li {
@@ -141,21 +141,21 @@ body {
 .card {
     height: 150px;
     border-radius: 30px;
-    border: 1px solid var(--azultransparent);
+    border: 1px solid var(--cinzatransparent);
     box-shadow: 5px 10px 7px rgb(127 126 126);
-    color: var(--azultransparent)
+    color: var(--cinzatransparent)
 }
 
 .cardRecuperados {
-    background-color: rgb(36, 186, 36);
+    background-color: var(--azultransparent);
 }
 
 .cardConfirmados {
-    background-color: rgb(217, 234, 25);
+    background-color: var(--azultransparent);
 }
 
 .cardMortes {
-    background-color: rgb(247, 22, 10);
+    background-color: var(--azultransparent);
 }
 
 .containerGraficos {
