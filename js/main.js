@@ -74,18 +74,22 @@ function covidGetCountry(parameter) {
 }
 
 
-function Dropdown(parameter) {
+function Dropdown(parameter, op) {
     var dropdown = document.getElementById("province-dropdown")
-    parameter.forEach(parameter => {
-        var item = document.createElement('a')
-        item.innerHTML = parameter.Province
-        item.classList.add("dropdown-item")
-        item.id = parameter.ID
-        dropdown.appendChild(item)
-        item.onclick = function() {
-            (searchState(item.id))
-        }
-    })
+    if (op == true) {
+        parameter.forEach(parameter => {
+            var item = document.createElement('a')
+            item.innerHTML = parameter.Province
+            item.classList.add("dropdown-item")
+            item.id = parameter.ID
+            dropdown.appendChild(item)
+            item.onclick = function() {
+                (searchState(item.id))
+            }
+        })
+    } else {
+        dropdown.innerHTML = ''
+    }
 }
 
 function LastData() {
@@ -93,19 +97,26 @@ function LastData() {
     LastDataStates(responseCountry.data)
 }
 
+function Clear() {
+    Dropdown(responseState, false)
+    responseGeralCountry = []
+    responseCountry = []
+    responseState = []
+    StateNames = []
+    responseState = []
+}
+
 async function searchCountry(op) {
     CountryInput = document.getElementById("countrySearch").value
     if (op == true) {
+        Clear()
         responseCountry = await covidGet(CountryInput)
         responseGeralCountry = await covidGetCountry(CountryInput)
         LastData()
     } else {
         responseCountry = await covidGet(dataLocalization.data.address.country)
-        console.log(dataLocalization.data.address.country)
-        console.log(dataLocalization)
         responseGeralCountry = await covidGetCountry(dataLocalization.data.address.country)
         LastData()
-        console.log(responseState)
         responseState.forEach(state => {
             var nameStateAux = removerAcentos(dataLocalization.data.address.state)
             if (nameStateAux == state.Province) {
@@ -113,7 +124,8 @@ async function searchCountry(op) {
             }
         })
     }
-    Dropdown(responseState)
+    Dropdown(responseState, true)
+    console.log(responseState)
     return responseCountry
 }
 
