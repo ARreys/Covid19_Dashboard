@@ -31,12 +31,10 @@ function removerAcentos(newStringComAcento) {
         n: /\xF1/g,
         N: /\xD1/g,
     };
-
     for (var letra in mapaAcentosHex) {
         var expressaoRegular = mapaAcentosHex[letra];
         string = string.replace(expressaoRegular, letra);
     }
-
     return string;
 }
 
@@ -125,7 +123,6 @@ async function searchCountry(op) {
         })
     }
     Dropdown(responseState, true)
-    console.log(responseState)
     return responseCountry
 }
 
@@ -138,7 +135,6 @@ function LastDataCountry(parameter) {
 
 
 function LastDataStates(data) {
-    var allStates = []
     var dataAux = []
     data.forEach(data => {
         StateNames.push(data.Province)
@@ -153,10 +149,9 @@ function LastDataStates(data) {
             if (data.Province == estado)
                 dataAux.push(data)
         })
-        allStates.push(dataAux[dataAux.length - 1])
+        responseState.push(dataAux[dataAux.length - 1])
     })
-    responseState = allStates
-    return allStates;
+    return responseState
 }
 
 
