@@ -20,5 +20,5 @@ Este é um dashboard feito por mim que contém todos os dados mais recentes de t
 
 ## Screenshot
 
-![Screenshot](Readme/Shot.png)
+![Screenshot](Screenshot/Shot.png)
 
