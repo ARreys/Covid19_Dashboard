@@ -1,12 +1,3 @@
-const labelState = document.getElementById("province")
-const nRecoveredState = document.getElementById("nRecuperados")
-const nConfirmedSatate = document.getElementById("nConfirmados")
-const nDeathState = document.getElementById("nMortes")
-
-const nRecoveredCountry = document.getElementById("nRecuperadosCountry")
-const nConfirmedCountry = document.getElementById("nConfirmadosCountry")
-const nDeathCountry = document.getElementById("nMortesCountry")
-
 var responseGeralCountry = []
 var responseCountry = []
 var responseState = []
@@ -175,14 +166,14 @@ function searchState(id) {
 
 function Counter(parameter, op) {
     if (op == true) {
-        labelState.innerHTML = parameter.Province
-        nConfirmedSatate.innerHTML = parameter.Confirmed.toLocaleString()
-        nRecoveredState.innerHTML = parameter.Recovered.toLocaleString()
-        nDeathState.innerHTML = parameter.Deaths.toLocaleString()
+        document.getElementById("province").innerHTML = parameter.Province
+        document.getElementById("nConfirmados").innerHTML = parameter.Confirmed.toLocaleString()
+        document.getElementById("nRecuperados").innerHTML = parameter.Recovered.toLocaleString()
+        document.getElementById("nMortes").innerHTML = parameter.Deaths.toLocaleString()
     } else {
-        nRecoveredCountry.innerHTML = parameter.Recovered.toLocaleString()
-        nConfirmedCountry.innerHTML = parameter.Confirmed.toLocaleString()
-        nDeathCountry.innerHTML = parameter.Deaths.toLocaleString()
+        document.getElementById("nRecuperadosCountry").innerHTML = parameter.Recovered.toLocaleString()
+        document.getElementById("nConfirmadosCountry").innerHTML = parameter.Confirmed.toLocaleString()
+        document.getElementById("nMortesCountry").innerHTML = parameter.Deaths.toLocaleString()
     }
 }
 
